@@ -1,0 +1,275 @@
+<head>
+<!--
+Activity Trigger:
+Generate report every 1 day
+Send email/store archive only when report has changed
+Activity Report (HTML):
+Report: _Scheduled Report - Bes Console User Report (administrator)
+-->
+
+<STYLE> 
+ 
+                table
+                {
+   margin: 0;
+                 font-size: 14;
+  }
+                th
+                {
+                 font-size:14; 
+                 font-family:Arial; 
+                 background-color: #eaeaea;
+                 border: 1px solid #cccccc;
+                 margin: 0;
+                 padding: 6px 20px 1px 0;
+                 text-align: left;
+ 
+                }
+                td
+                {
+                                border-bottom: 1px solid #cccccc;
+                                margin: 0;
+                  padding: 6px 20px 1px 0;
+                }
+                h3
+                {
+                                background-color: #6699cc;
+                                color: white;
+                                width: 100%;
+ 
+ 
+                /* Sortable tables */
+                table.sortable a.sortheader
+                                {
+                    color: black;
+                    text-decoration: underline;
+                                
+                                }
+                                
+                table.sortable span.sortarrow, img
+                                {
+                    color: black;
+                    text-decoration: none;
+                    border-width: 0px;
+                                }
+ 
+</STYLE>
+</head>
+<BR><BR>
+<h2>Console User Daily Status Report</h2>
+<br>
+<h3>Overall Statistics</h3>
+<span>
+   Total Number of Operators: <?Relevance number of bes users?>
+   <br>
+   Number of Operators logged in within last 24 hours: <?Relevance number of bes users  whose ( (exist last login time of it and last login time of it > (now - 24 *hour))  )  ?>
+   <br>
+   Total Number of Master Operators:  <?Relevance number of bes users whose (master flag of it)?>
+    <br>
+   Number of Operators who have not logged in over 90 days (and have logged in since account has been created): <?Relevance number of bes users  whose ( (exist last login time of it and last login time of it < (now - 90 *day)) )  ?>  
+    <br>
+	Number of Operators who have not logged in over 90 days since there account was created: <?Relevance number of bes users  whose ( ( creation time of it <= (now - 90*day)  and not exists last login time of it ))  ?>  
+</span>
+
+
+<h3>New Users in past 24 hours</h3>
+
+<table id="resultsTble2" class="sortable" border=1>
+
+<th>Username</th>
+<th>Roles</th>
+<th>Master Op Flag</th>
+<th>Custom Content Flag</th>
+<th>Creation Time</th>
+<th>Last Logon Time</th>
+<th># of Issued Actions</th>
+<?Relevance
+Concatenations of trs of ( td of name of it &
+td of (
+   if exists (roles of it) then (concatenations ";" of names of roles of it) else ("No-Role")
+) &
+td of ((master flag of it) as string ) & 
+td of ((custom content flag of it)  as string) &
+td of ((creation time of it) as string) & 
+td of (if exist (last login time of it) then ((last login time of it) as string) else ("NEVER LOGGED ON"))  &
+td of (if exist (issued action set of it) then ((size of issued action set of it) as string) else ("No-Actions"))  
+)  of bes users whose ( creation time of it >= (now - 24*hour) )
+
+?>
+</table>
+
+<br /><br />
+
+<h3>Users Never Logged On in over 90 Days Since Creation (User has never logged in)</h3>
+
+<table id="resultsTble3" class="sortable" border=1>
+
+<th>Username</th>
+<th>Roles</th>
+<th>Master Op Flag</th>
+<th>Custom Content Flag</th>
+<th>Creation Time</th>
+<th>Last Logon Time</th>
+<th># of Issued Actions</th>
+<?Relevance
+Concatenations of trs of ( td of name of it &
+td of (
+   if exists (roles of it) then (concatenations ";" of names of roles of it) else ("No-Role")
+) &
+td of ((master flag of it) as string ) & 
+td of ((custom content flag of it)  as string) &
+td of ((creation time of it) as string) & 
+td of (if exist (last login time of it) then ((last login time of it) as string) else ("NEVER LOGGED ON"))  &
+td of (if exist (issued action set of it) then ((size of issued action set of it) as string) else ("No-Actions"))  
+)  of bes users whose ( creation time of it <= (now - 90*day)  and not exists last login time of it )
+
+?>
+</table>
+
+
+<br /><br />
+
+
+
+<h3>Users that have not logged in for over 90 days (User has logged in at least once)</h3>
+
+<table id="resultsTble5" class="sortable" border=1>
+
+<th>Username</th>
+<th>Roles</th>
+<th>Master Op Flag</th>
+<th>Custom Content Flag</th>
+<th>Creation Time</th>
+<th>Last Logon Time</th>
+<th># of Issued Actions</th>
+<?Relevance
+Concatenations of trs of ( td of name of it &
+td of (
+   if exists (roles of it) then (concatenations ";" of names of roles of it) else ("No-Role")
+) &
+td of ((master flag of it) as string ) & 
+td of ((custom content flag of it)  as string) &
+td of ((creation time of it) as string) & 
+td of (if exist (last login time of it) then ((last login time of it) as string) else ("NEVER LOGGED ON"))  &
+td of (if exist (issued action set of it) then ((size of issued action set of it) as string) else ("No-Actions"))  
+)  of bes users whose ( (exist last login time of it and last login time of it < (now - 90*day)) and exist last login time of it )  
+
+?>
+</table>
+
+<br /><br />
+
+
+<h3>Users that have not logged  since the account has been created</h3>
+
+<table id="resultsTble5" class="sortable" border=1>
+
+<th>Username</th>
+<th>Roles</th>
+<th>Master Op Flag</th>
+<th>Custom Content Flag</th>
+<th>Creation Time</th>
+<th>Last Logon Time</th>
+<th># of Issued Actions</th>
+<?Relevance
+Concatenations of trs of ( td of name of it &
+td of (
+   if exists (roles of it) then (concatenations ";" of names of roles of it) else ("No-Role")
+) &
+td of ((master flag of it) as string ) & 
+td of ((custom content flag of it)  as string) &
+td of ((creation time of it) as string) & 
+td of (if exist (last login time of it) then ((last login time of it) as string) else ("NEVER LOGGED ON"))  &
+td of (if exist (issued action set of it) then ((size of issued action set of it) as string) else ("No-Actions"))  
+)  of bes users whose ( not exist last login time of it )  
+
+?>
+</table>
+
+<br /><br />
+
+
+
+<h3>Master Operators</h3>
+<table id="resultsTble6" class="sortable" border=1>
+
+<th>Username</th>
+<th>Roles</th>
+<th>Master Op Flag</th>
+<th>Custom Content Flag</th>
+<th>Creation Time</th>
+<th>Last Logon Time</th>
+<th># of Issued Actions</th>
+<?Relevance
+Concatenations of trs of ( td of name of it &
+td of (
+   if exists (roles of it) then (concatenations ";" of names of roles of it) else ("No-Role")
+) &
+td of ((master flag of it) as string ) & 
+td of ((custom content flag of it)  as string) &
+td of ((creation time of it) as string) & 
+td of (if exist (last login time of it) then ((last login time of it) as string) else ("NEVER LOGGED ON"))  &
+td of (if exist (issued action set of it) then ((size of issued action set of it) as string) else ("No-Actions"))  
+)  of bes users whose (master flag of it)  
+
+?>
+</table>
+
+
+<br><br>
+
+<h3>Users logged in past 24 hours</h3>
+
+<table id="resultsTble4" class="sortable" border=1>
+
+<th>Username</th>
+<th>Roles</th>
+<th>Master Op Flag</th>
+<th>Custom Content Flag</th>
+<th>Creation Time</th>
+<th>Last Logon Time</th>
+<th># of Issued Actions</th>
+<?Relevance
+Concatenations of trs of ( td of name of it &
+td of (
+   if exists (roles of it) then (concatenations ";" of names of roles of it) else ("No-Role")
+) &
+td of ((master flag of it) as string ) & 
+td of ((custom content flag of it)  as string) &
+td of ((creation time of it) as string) & 
+td of (if exist (last login time of it) then ((last login time of it) as string) else ("NEVER LOGGED ON"))  &
+td of (if exist (issued action set of it) then ((size of issued action set of it) as string) else ("No-Actions"))  
+)  of bes users whose ( last login time of it >= (now - 24*hour) )
+
+?>
+</table>
+
+<br /><br />
+
+<h3>All User Assignment Report</h3>
+<table id="resultsTble" class="sortable" border=1>
+
+<th>Username</th>
+<th>Roles</th>
+<th>Master Op Flag</th>
+<th>Custom Content Flag</th>
+<th>Creation Time</th>
+<th>Last Logon Time</th>
+<th># of Issued Actions</th>
+<?Relevance
+Concatenations of trs of ( td of name of it &
+td of (
+   if exists (roles of it) then (concatenations ";" of names of roles of it) else ("No-Role")
+) &
+td of ((master flag of it) as string ) & 
+td of ((custom content flag of it)  as string) &
+td of ((creation time of it) as string) & 
+td of (if exist (last login time of it) then ((last login time of it) as string) else ("NEVER LOGGED ON"))  &
+td of (if exist (issued action set of it) then ((size of issued action set of it) as string) else ("No-Actions"))  
+)  of bes users
+
+?>
+</table>
+<br>
+
+<span><font size=1>v2</font></span>
